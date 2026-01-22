@@ -924,31 +924,34 @@
     
     function playMusic() {
       const music = document.getElementById('game-music');
-      music.play().catch(eror => {
+      if (music) {
+          music.play().catch(eror => {
           console.log(Musik tertahan browser, butuh klik 
    user.");
       });
     }
-
+ }
    function stopMusic() {
     const music = document.getElementById('game-music');
-    music.pause();
+    if (music) {
+     music.pause();
    }
-
+}
    function toggleMusic() {
     const allButtons = document.querySelectorAll('button');
     let btn;
+    // Mencari tombol yang ada tulisan Musik
     allButtons.forEach(b => {
         if (b.innerText.includes('Musik')) btn = b;
     });
     
       if (musicEnabled) {
         stopMusic();
-        if (btn) btn.textContent = '🔇 Musik';
+        if (btn) btn.innerHTML = '🔇 Musik'; //
         musicEnabled = false;
       } else {
         playMusic();
-        if (btn) btn.textContent = '🔊 Musik';
+        if (btn) btn.innerHTML = '🔊 Musik'; //
         musicEnabled = true;
       }
     }
