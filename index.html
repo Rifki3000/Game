@@ -1,0 +1,1375 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lintas Seragam</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="/_sdk/data_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&amp;family=Caveat:wght@500;600&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+      font-family: 'Nunito', sans-serif;
+    }
+    
+    .handwritten {
+      font-family: 'Caveat', cursive;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+    
+    @keyframes sway {
+      0%, 100% { transform: translateX(0) rotate(0deg); }
+      25% { transform: translateX(-5px) rotate(-2deg); }
+      75% { transform: translateX(5px) rotate(2deg); }
+    }
+    
+    @keyframes wobble {
+      0% { transform: rotate(0deg); }
+      25% { transform: rotate(-5deg); }
+      75% { transform: rotate(5deg); }
+      100% { transform: rotate(0deg); }
+    }
+    
+    @keyframes scaleIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    
+    @keyframes slideDown {
+      from { transform: translateY(-30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
+    @keyframes particleFloat {
+      0% { transform: translateY(0) translateX(0); opacity: 1; }
+      100% { transform: translateY(-80px) translateX(20px); opacity: 0; }
+    }
+    
+    @keyframes starTwinkle {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+    
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    @keyframes floatUp {
+      0% { transform: translateY(0) translateX(-50%); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-150px) translateX(-50%); opacity: 0; }
+    }
+    
+    @keyframes pulse-slow {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+    
+    .animate-fade-in {
+      animation: fadeIn 0.6s ease-out forwards;
+    }
+    
+    .animate-twinkle {
+      animation: starTwinkle 2s ease-in-out infinite;
+    }
+    
+    .animate-float-up {
+      animation: floatUp 3s ease-out forwards;
+    }
+    
+    .music-btn {
+      transition: all 0.3s ease;
+      z-index: 40;
+    }
+    
+    .music-btn:hover {
+      transform: scale(1.1);
+    }
+    
+    .music-btn.active {
+      background: linear-gradient(135deg, #ec4899, #8b5cf6);
+      box-shadow: 0 0 20px rgba(236, 72, 153, 0.6);
+    }
+    
+    .bg-animated {
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+    }
+    
+    .particle {
+      position: absolute;
+      pointer-events: none;
+    }
+    
+    .animate-slide-in {
+      animation: slideIn 0.5s ease-out forwards;
+    }
+    
+    .animate-float {
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    .animate-bounce {
+      animation: bounce 2s ease-in-out infinite;
+    }
+    
+    .animate-sway {
+      animation: sway 3s ease-in-out infinite;
+    }
+    
+    .animate-wobble {
+      animation: wobble 2s ease-in-out infinite;
+    }
+    
+    .animate-scale-in {
+      animation: scaleIn 0.6s ease-out forwards;
+    }
+    
+    .animate-slide-down {
+      animation: slideDown 0.6s ease-out forwards;
+    }
+    
+    .choice-btn {
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .choice-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+    
+    .choice-btn:hover::before {
+      left: 100%;
+    }
+    
+    .dialog-box {
+      background: linear-gradient(135deg, rgba(30,30,50,0.95) 0%, rgba(50,30,60,0.95) 100%);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255,182,193,0.3);
+    }
+    
+    .meter-bar {
+      transition: width 0.5s ease-out;
+    }
+    
+    .wa-bubble {
+      position: relative;
+    }
+    
+    .wa-bubble-left::before {
+      content: '';
+      position: absolute;
+      left: -8px;
+      top: 10px;
+      border-width: 8px;
+      border-style: solid;
+      border-color: transparent #dcf8c6 transparent transparent;
+    }
+    
+    .wa-bubble-right::before {
+      content: '';
+      position: absolute;
+      right: -8px;
+      top: 10px;
+      border-width: 8px;
+      border-style: solid;
+      border-color: transparent transparent transparent #fff;
+    }
+    
+    .scene-bg {
+      transition: background-image 1s ease-in-out;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+ </head>
+ <body class="h-full">
+  <div id="app" class="h-full w-full overflow-auto bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"><!-- Main Menu -->
+   <div id="mainMenu" class="min-h-full flex flex-col items-center justify-center p-6 relative overflow-hidden">
+    <div id="menuBg" class="absolute inset-0 bg-animated" style="background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab); background-size: 400% 400%;"></div><!-- Animated stars -->
+    <div id="starsContainer" class="absolute inset-0"></div><!-- Floating particles -->
+    <div id="particlesContainer" class="absolute inset-0"></div><button id="musicBtn" onclick="toggleMusic()" class="music-btn absolute top-6 right-6 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-full border border-white/30 flex items-center gap-2 font-semibold"> 🔇 Musik </button>
+    <div class="text-center animate-fade-in relative z-10">
+     <div class="mb-2">
+      <span class="text-7xl animate-bounce">🎮</span>
+     </div>
+     <h1 id="gameTitle" class="text-5xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 mb-3 drop-shadow-lg">Lintas Seragam</h1>
+     <p id="gameSubtitle" class="handwritten text-2xl md:text-3xl text-pink-300 mb-8">Antara Bengkel &amp; Papan Tulis</p>
+     <div class="flex justify-center gap-8 mb-10">
+      <div class="text-center transform hover:scale-110 transition-transform">
+       <div class="w-24 h-24 md:w-32 md:h-32 rounded-full bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center text-5xl md:text-6xl shadow-lg shadow-blue-500/30 border-4 border-blue-300">
+        🔧
+       </div>
+       <p class="mt-2 text-blue-300 font-bold">Rifki</p>
+       <p class="text-xs text-blue-400">SMK - Teknik Mesin</p>
+      </div>
+      <div class="text-4xl animate-bounce self-center">
+       💕
+      </div>
+      <div class="text-center transform hover:scale-110 transition-transform">
+       <div class="w-24 h-24 md:w-32 md:h-32 rounded-full bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center text-5xl md:text-6xl shadow-lg shadow-pink-500/30 border-4 border-pink-300">
+        📚
+       </div>
+       <p class="mt-2 text-pink-300 font-bold">Sinta</p>
+       <p class="text-xs text-pink-400">SMA - OSIS</p>
+      </div>
+     </div>
+     <div class="space-y-4"><button onclick="startNewGame()" class="w-64 py-4 px-8 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-bold text-xl rounded-full shadow-lg shadow-pink-500/30 transform hover:scale-105 transition-all"> 🎬 Mulai Cerita Baru </button> <br><button onclick="loadGame()" id="continueBtn" class="w-64 py-4 px-8 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-bold text-xl rounded-full shadow-lg shadow-cyan-500/30 transform hover:scale-105 transition-all hidden"> 📖 Lanjutkan Cerita </button> <br><button onclick="showCharacters()" class="w-64 py-3 px-8 bg-white/10 hover:bg-white/20 text-white font-semibold text-lg rounded-full border-2 border-white/30 transform hover:scale-105 transition-all"> 👥 Karakter </button>
+     </div>
+    </div>
+   </div><!-- Character Gallery -->
+   <div id="characterGallery" class="min-h-full p-6 hidden"><button onclick="showMainMenu()" class="mb-6 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-all flex items-center gap-2"> ← Kembali </button>
+    <h2 class="text-3xl font-bold text-center text-white mb-8">👥 Karakter</h2>
+    <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+     <div class="bg-gradient-to-br from-blue-900/50 to-cyan-900/50 rounded-2xl p-6 border border-blue-500/30 animate-fade-in">
+      <div class="flex items-start gap-4">
+       <div class="w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center text-4xl flex-shrink-0">
+        🔧
+       </div>
+       <div>
+        <h3 class="text-2xl font-bold text-blue-300">Rifki Pratama</h3>
+        <p class="text-cyan-400 text-sm mb-2">SMK Negeri 1 - Teknik Mesin</p>
+        <div class="space-y-1 text-sm text-gray-300">
+         <p><span class="text-blue-400">Umur:</span> 17 tahun</p>
+         <p><span class="text-green-400">Mimpi:</span> Jadi teknisi profesional</p>
+         <p><span class="text-red-400">Kelemahan:</span> Minder status sosial</p>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="bg-gradient-to-br from-pink-900/50 to-rose-900/50 rounded-2xl p-6 border border-pink-500/30 animate-fade-in" style="animation-delay: 0.2s;">
+      <div class="flex items-start gap-4">
+       <div class="w-20 h-20 rounded-full bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center text-4xl flex-shrink-0">
+        📚
+       </div>
+       <div>
+        <h3 class="text-2xl font-bold text-pink-300">Sinta Wijaya</h3>
+        <p class="text-rose-400 text-sm mb-2">SMA Negeri 3 - Wakil Ketua OSIS</p>
+        <div class="space-y-1 text-sm text-gray-300">
+         <p><span class="text-pink-400">Umur:</span> 17 tahun</p>
+         <p><span class="text-green-400">Mimpi:</span> Jadi dokter</p>
+         <p><span class="text-red-400">Tekanan:</span> Ekspektasi keluarga</p>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div><!-- Game Screen -->
+   <div id="gameScreen" class="min-h-full flex flex-col hidden">
+    <div class="bg-black/50 backdrop-blur-sm p-3 flex items-center justify-between"><button onclick="showPauseMenu()" class="px-3 py-1 bg-white/10 hover:bg-white/20 text-white rounded-lg text-sm"> ☰ Menu </button>
+     <div class="text-white text-sm font-semibold" id="chapterIndicator">
+      Chapter 1
+     </div>
+     <div class="flex gap-4 text-sm">
+      <div class="flex items-center gap-1"><span>❤️</span>
+       <div class="w-16 h-2 bg-gray-700 rounded-full overflow-hidden">
+        <div id="trustBar" class="h-full bg-gradient-to-r from-pink-500 to-red-500 meter-bar" style="width: 50%"></div>
+       </div>
+      </div>
+      <div class="flex items-center gap-1"><span>⚡</span>
+       <div class="w-16 h-2 bg-gray-700 rounded-full overflow-hidden">
+        <div id="courageBar" class="h-full bg-gradient-to-r from-yellow-500 to-orange-500 meter-bar" style="width: 50%"></div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div id="sceneArea" class="flex-1 relative overflow-hidden">
+     <div id="sceneBg" class="absolute inset-0 bg-gradient-to-b from-blue-900 to-purple-900 scene-bg bg-animated"></div><!-- Animated background particles -->
+     <div id="sceneBgParticles" class="absolute inset-0 pointer-events-none"></div>
+     <div id="characterLeft" class="absolute bottom-32 left-4 md:left-16 character-sprite hidden">
+      <svg width="140" height="200" viewbox="0 0 140 200" class="animate-sway"><ellipse cx="70" cy="120" rx="35" ry="50" fill="#3b82f6" /> <circle cx="70" cy="50" r="35" fill="#fdbcb4" /> <path d="M 35 35 Q 35 15 70 15 Q 105 15 105 35 Z" fill="#2c3e50" /> <circle cx="55" cy="45" r="4" fill="#2c3e50" /> <circle cx="85" cy="45" r="4" fill="#2c3e50" /> <path d="M 60 55 Q 70 60 80 55" stroke="#2c3e50" stroke-width="2" fill="none" /> <rect x="20" y="100" width="20" height="50" rx="10" fill="#fdbcb4" transform="rotate(-30 30 100)" /> <rect x="100" y="100" width="20" height="50" rx="10" fill="#fdbcb4" transform="rotate(30 110 100)" /> <rect x="55" y="160" width="12" height="35" fill="#2c3e50" /> <rect x="73" y="160" width="12" height="35" fill="#2c3e50" /> <ellipse cx="61" cy="200" rx="10" ry="6" fill="#1a202c" /> <ellipse cx="79" cy="200" rx="10" ry="6" fill="#1a202c" />
+      </svg>
+      <div class="text-white font-bold text-sm text-center mt-2">
+       Rifki 🔧
+      </div>
+     </div>
+     <div id="characterRight" class="absolute bottom-32 right-4 md:right-16 character-sprite hidden">
+      <svg width="140" height="200" viewbox="0 0 140 200" class="animate-bounce" style="animation-delay: 0.2s;"><ellipse cx="70" cy="120" rx="35" ry="50" fill="#ec4899" /> <circle cx="70" cy="50" r="35" fill="#fdbcb4" /> <path d="M 35 30 Q 30 10 70 5 Q 110 10 105 30 Q 95 15 70 12 Q 45 15 35 30 Z" fill="#8b5a3c" /> <ellipse cx="100" cy="35" rx="12" ry="25" fill="#8b5a3c" transform="rotate(30 100 35)" /> <circle cx="55" cy="45" r="4" fill="#2c3e50" /> <circle cx="85" cy="45" r="4" fill="#2c3e50" /> <path d="M 60 55 Q 70 62 80 55" stroke="#2c3e50" stroke-width="2" fill="none" /> <rect x="20" y="100" width="20" height="50" rx="10" fill="#fdbcb4" transform="rotate(-25 30 100)" /> <rect x="100" y="100" width="20" height="50" rx="10" fill="#fdbcb4" transform="rotate(25 110 100)" /> <rect x="55" y="160" width="12" height="35" fill="#2c3e50" /> <rect x="73" y="160" width="12" height="35" fill="#2c3e50" /> <ellipse cx="61" cy="200" rx="10" ry="6" fill="#1a202c" /> <ellipse cx="79" cy="200" rx="10" ry="6" fill="#1a202c" />
+      </svg>
+      <div class="text-white font-bold text-sm text-center mt-2">
+       Sinta 📚
+      </div>
+     </div>
+     <div class="absolute bottom-0 left-0 right-0 p-4">
+      <div id="dialogBox" class="dialog-box rounded-2xl p-4 md:p-6 max-w-3xl mx-auto">
+       <div id="speakerName" class="text-pink-400 font-bold mb-2 text-lg"></div>
+       <p id="dialogText" class="text-white text-lg md:text-xl leading-relaxed min-h-[60px]"></p>
+       <div id="choicesContainer" class="mt-4 space-y-2 hidden"></div>
+       <div id="continueIndicator" class="text-right mt-2 text-pink-400 text-sm animate-pulse hidden">
+        Ketuk untuk lanjut ▼
+       </div>
+      </div>
+     </div>
+    </div>
+   </div><!-- Pause Menu -->
+   <div id="pauseMenu" class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+    <div class="bg-gradient-to-br from-slate-800 to-purple-900 rounded-2xl p-8 max-w-sm w-full mx-4 border border-purple-500/30">
+     <h3 class="text-2xl font-bold text-white text-center mb-6">⏸️ Game Paused</h3>
+     <div class="space-y-3"><button onclick="resumeGame()" class="w-full py-3 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold rounded-xl transition-all"> ▶️ Lanjutkan </button> <button onclick="saveGame()" class="w-full py-3 bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 text-white font-bold rounded-xl transition-all"> 💾 Simpan Game </button> <button onclick="confirmQuit()" class="w-full py-3 bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white font-bold rounded-xl transition-all"> 🚪 Keluar ke Menu </button>
+     </div>
+     <div id="saveStatus" class="mt-4 text-center text-sm hidden"></div>
+    </div>
+   </div><!-- Ending Screen -->
+   <div id="endingScreen" class="min-h-full flex flex-col items-center justify-center p-6 hidden">
+    <div class="text-center animate-fade-in max-w-lg">
+     <div id="endingIcon" class="text-8xl mb-4"></div>
+     <h2 id="endingTitle" class="text-4xl font-bold text-white mb-4"></h2>
+     <p id="endingText" class="text-gray-300 text-lg mb-4"></p>
+     <p id="endingStats" class="text-sm text-gray-400 mb-8"></p>
+     <div class="space-y-3"><button onclick="startNewGame()" class="w-full py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold rounded-xl"> 🔄 Main Ulang </button> <button onclick="showMainMenu()" class="w-full py-3 bg-white/10 text-white font-bold rounded-xl"> 🏠 Menu Utama </button>
+     </div>
+    </div>
+   </div>
+   <div id="toastContainer" class="fixed top-4 right-4 z-50 space-y-2"></div>
+  </div>
+  <script>
+    let gameState = {
+      chapter: 1,
+      scene: 0,
+      trust: 50,
+      courage: 50,
+      choices: [],
+      ending: null
+    };
+    
+    let currentDialog = 0;
+    let isTyping = false;
+    let savedGames = [];
+    let musicEnabled = false;
+    let audioContext = null;
+    let oscillator = null;
+    let gainNode = null;
+    
+    const defaultConfig = {
+      game_title: "Lintas Seragam",
+      subtitle: "Antara Bengkel & Papan Tulis"
+    };
+    
+    let config = { ...defaultConfig };
+    
+    const storyData = {
+      1: {
+        title: "Chapter 1: Pertemuan Gak Sengaja",
+        scenes: [
+          {
+            bg: "angkot",
+            dialogs: [
+              { speaker: "Narasi", text: "Sore itu, angkot jurusan terminal-kota penuh sesak seperti biasa...", showLeft: false, showRight: false },
+              { speaker: "Narasi", text: "Rifki berdiri di dekat pintu, badan lelah setelah praktek bengkel seharian.", showLeft: true, showRight: false },
+              { speaker: "Rifki", text: "(Haduh... penuh banget. Mana bau keringet campur oli lagi badan gue.)", showLeft: true, showRight: false },
+              { speaker: "Narasi", text: "Tiba-tiba, angkot berhenti mendadak. Seorang cewek berseragam SMA hampir jatuh...", showLeft: true, showRight: true },
+              { speaker: "Sinta", text: "KYAA—!", showLeft: true, showRight: true },
+              { speaker: "Narasi", text: "Dengan refleks, Rifki menahan bahunya.", showLeft: true, showRight: true },
+              { speaker: "Rifki", text: "Hati-hati!", showLeft: true, showRight: true },
+              { speaker: "Sinta", text: "A-ah... makasih...", showLeft: true, showRight: true },
+            ],
+            choices: [
+              { text: "😊 \"Gapapa, santai aja.\"", trust: 5, courage: 0, nextScene: 1 },
+              { text: "😎 \"Pegangan yang bener dong, bahaya tau.\"", trust: -5, courage: 10, nextScene: 1 },
+              { text: "😳 (Diam aja, malu)", trust: 0, courage: -5, nextScene: 1 }
+            ]
+          },
+          {
+            bg: "angkot",
+            dialogs: [
+              { speaker: "Sinta", text: "Kamu... anak SMK mana?", showLeft: true, showRight: true },
+              { speaker: "Rifki", text: "SMK 1. Jurusan teknik mesin. Kenapa?", showLeft: true, showRight: true },
+              { speaker: "Sinta", text: "Oh... nggak. Cuma nanya aja.", showLeft: true, showRight: true },
+              { speaker: "Narasi", text: "Keheningan canggung menyelimuti. Rifki memberanikan diri...", showLeft: true, showRight: true },
+            ],
+            choices: [
+              { text: "💬 \"Kamu SMA 3 kan? Aku sering liat seragamnya.\"", trust: 10, courage: 5, nextScene: 2 },
+              { text: "📱 \"Eh... boleh minta IG nggak?\"", trust: 0, courage: 15, nextScene: 2 },
+              { text: "😶 (Udah ah, diem aja.)", trust: -10, courage: -10, nextScene: 2 }
+            ]
+          },
+          {
+            bg: "halte",
+            dialogs: [
+              { speaker: "Narasi", text: "Angkot berhenti di halte dekat SMA 3...", showLeft: true, showRight: true },
+              { speaker: "Sinta", text: "Aku turun di sini. Um... makasih ya tadi.", showLeft: true, showRight: true },
+              { speaker: "Rifki", text: "Iya, hati-hati.", showLeft: true, showRight: true },
+              { speaker: "Sinta", text: "Oh iya... ini...", showLeft: true, showRight: true },
+              { speaker: "Narasi", text: "Sinta menyodorkan secarik kertas kecil dengan nomor telepon.", showLeft: true, showRight: true },
+              { speaker: "Sinta", text: "B-buat jaga-jaga aja. Siapa tau ada perlu. Bye!", showLeft: false, showRight: true },
+              { speaker: "Rifki", text: "(Wait... ini beneran kejadian?!)", showLeft: true, showRight: false },
+            ],
+            choices: [
+              { text: "📱 Chat duluan dengan sapaan sopan", trust: 10, courage: 5, nextChapter: 2 },
+              { text: "⏰ Tunggu besok aja, biar gak keliatan desperate", trust: 0, courage: 0, nextChapter: 2 },
+              { text: "🔥 Langsung chat dengan gombalan", trust: -5, courage: 10, nextChapter: 2 }
+            ]
+          }
+        ]
+      },
+      2: {
+        title: "Chapter 2: Dunia yang Beda",
+        scenes: [
+          {
+            bg: "chat",
+            dialogs: [
+              { speaker: "Narasi", text: "Chat mereka berkembang pesat. Malam demi malam mereka saling share cerita...", showLeft: false, showRight: false },
+              { speaker: "WA", text: "CHAT_SCENE", showLeft: false, showRight: false },
+            ],
+            waMessages: [
+              { from: "rifki", text: "Hei, lagi ngapain?", time: "19:42" },
+              { from: "sinta", text: "Baru selesai rapat OSIS 😫 capek bgt", time: "19:45" },
+              { from: "rifki", text: "Wah sibuk bgt ya ketua OSIS", time: "19:46" },
+              { from: "sinta", text: "Wakil ketua aja kok hehe", time: "19:46" },
+              { from: "sinta", text: "Kamu gimana? Praktek apa hari ini?", time: "19:47" },
+              { from: "rifki", text: "Tadi bongkar mesin motor. Tanganku item semua wkwk", time: "19:48" },
+              { from: "sinta", text: "Ih jorok 🤣", time: "19:48" },
+              { from: "sinta", text: "Serius loh... gue suka liat effort mu bekerja. Beda banget sama anak-anak sini.", time: "19:50" },
+            ],
+            choices: [
+              { text: "❤️ \"Gue juga suka lu. Beda tapi komplementer.\"", trust: 15, courage: 10, nextScene: 1 },
+              { text: "🤔 \"Beda gimana? Gue rasa gue inferior dibanding lo.\"", trust: 0, courage: -10, nextScene: 1 },
+              { text: "😂 \"Eh jangan gombal! Nanti gue percaya lho.\"", trust: 5, courage: 5, nextScene: 1 }
+            ]
+          },
+          {
+            bg: "perpus",
+            dialogs: [
+              { speaker: "Narasi", text: "Minggu berikutnya, mereka akhirnya bertemu di perpustakaan kota...", showLeft: true, showRight: true },
+              { speaker: "Rifki", text: "Jadi... ini kenapa kita ketemu di perpus? Bukan tempat romantis soalnya.", showLeft: true, showRight: true },
+              { speaker: "Sinta", text: "Yaudah kita ke taman setelah ini. Tapi dulu gue pengen tunjukin sesuatu.", showLeft: true, showRight: true },
+              { speaker: "Sinta", text: "Ini buku favoritku sejak kecil...", showLeft: true, showRight: true },
+              { speaker: "Narasi", text: "Sinta menunjukkan buku bergambar tentang perjalanan dua tokoh yang berasal dari dunia berbeda.", showLeft: true, showRight: true },
+              { speaker: "Sinta", text: "\"Kalo mereka bisa bersatu, kita juga bisa kan?\"", showLeft: true, showRight: true },
+              { speaker: "Rifki", text: "...", showLeft: true, showRight: true },
+              { speaker: "Rifki", text: "Iya. Kita pasti bisa.", showLeft: true, showRight: true },
+            ],
+            choices: [
+              { text: "💑 (Pegang tangannya)", trust: 10, courage: 15, nextScene: 2 },
+              { text: "😳 (Malu-maluan)", trust: 5, courage: 0, nextScene: 2 },
+              { text: "🎭 \"Kaya film ya? Tapi ini lebih real.\"", trust: 15, courage: 10, nextScene: 2 }
+            ]
+          },
+          {
+            bg: "taman",
+            dialogs: [
+              { speaker: "Narasi", text: "Di taman sambil matahari terbenam, Rifki akhirnya berani...", showLeft: true, showRight: true },
+              { speaker: "Rifki", text: "Sin... gue udah lama pengen bilang ini.", showLeft: true, showRight: true },
+              { speaker: "Rifki", text: "Gue... gue suka banget sama lo. Nggak tahu kapan dimulainya...", showLeft: true, showRight: true },
+              { speaker: "Rifki", text: "Tapi setiap hari, gue mau chat sama lo duluan. Gue mau tahu hari lo gimana.", showLeft: true, showRight: true },
+              { speaker: "Rifki", text: "Gue mau jadi orang yang buat lo ketawa.", showLeft: true, showRight: true },
+              { speaker: "Sinta", text: "Rifki...", showLeft: true, showRight: true },
+              { speaker: "Sinta", text: "Gue juga... suka sama lo. Banget.", showLeft: true, showRight: true },
+              { speaker: "Sinta", text: "Gue takut pertama kali ketemu lo... tapi lo bikin semua rasa aman.", showLeft: true, showRight: true },
+            ],
+            choices: [
+              { text: "💋 Cium pipi Sinta", trust: 20, courage: 20, nextChapter: 3 },
+              { text: "🤗 Peluk Sinta erat-erat", trust: 15, courage: 15, nextChapter: 3 },
+              { text: "👊 Hempas tangan Sinta dengan senyum gembira", trust: 20, courage: 10, nextChapter: 3 }
+            ]
+          }
+        ]
+      },
+      3: {
+        title: "Chapter 3: Masalah Datang",
+        scenes: [
+          {
+            bg: "sekolah",
+            dialogs: [
+              { speaker: "Narasi", text: "Seminggu setelah itu, gosip mulai beredar di SMK...", showLeft: true, showRight: false },
+              { speaker: "Dimas", text: "Bro, katanya lo pacaran sama cewek SMA?", showLeft: true, showRight: false },
+              { speaker: "Rifki", text: "Iya kenapa?", showLeft: true, showRight: false },
+              { speaker: "Dimas", text: "Eh nggak papa sih. Cuma... anak-anak pada ngomongin.", showLeft: true, showRight: false },
+              { speaker: "Dimas", text: "\"Rifki naik kelas. Sok-sokan ngejar anak SMA.\"", showLeft: true, showRight: false },
+              { speaker: "Narasi", text: "Rifki tersenyum tipis. Dia tau ini bakalan jadi masalah.", showLeft: true, showRight: false },
+            ],
+            choices: [
+              { text: "😤 \"Bodo amat omongan mereka.\"", trust: 10, courage: 15, nextScene: 1 },
+              { text: "😔 \"Iya juga sih... gue mulai ragu.\"", trust: -15, courage: -10, nextScene: 1 },
+              { text: "🤔 \"Kalo di sekolah lo gimana?\"", trust: 5, courage: 0, nextScene: 1 }
+            ]
+          },
+          {
+            bg: "sma",
+            dialogs: [
+              { speaker: "Narasi", text: "Sementara itu, di SMA 3, Sinta juga mengalami hal yang sama...", showLeft: false, showRight: true },
+              { speaker: "Raka", text: "Yo Sin, mau kemana sih? Kelihatan sering jalan sama yang lain?", showLeft: false, showRight: true },
+              { speaker: "Sinta", text: "Itu bukan urusanmu, Raka.", showLeft: false, showRight: true },
+              { speaker: "Raka", text: "Heh, gue tau itu siapa. Anak SMK. Rifki namanya kan?", showLeft: false, showRight: true },
+              { speaker: "Sinta", text: "Bagaimana kamu tau?", showLeft: false, showRight: true },
+              { speaker: "Raka", text: "Ya... gue liat kalian bareng di perpus. Anak becek dengan anak orang terpandang?", showLeft: false, showRight: true },
+              { speaker: "Raka", text: "Papamu pasti seneng denger ini...", showLeft: false, showRight: true },
+              { speaker: "Sinta", text: "Raka, jangan kamu urus!", showLeft: false, showRight: true },
+            ],
+            choices: [
+              { text: "📱 Langsung hubungi Rifki ceritain", trust: 15, courage: 10, nextScene: 2 },
+              { text: "🤫 Sembunyikan dari Rifki biar dia gak khawatir", trust: -15, courage: -5, nextScene: 2 },
+              { text: "😤 Hadapi Raka sendiri", trust: 5, courage: 15, nextScene: 2 }
+            ]
+          },
+          {
+            bg: "konflik",
+            dialogs: [
+              { speaker: "Narasi", text: "Hari berikutnya, di pertigaan jalan dekat SMK...", showLeft: true, showRight: false },
+              { speaker: "Galang", text: "Yo Rifki! Dengar-dengar lo pacar Sinta, ya?", showLeft: true, showRight: false },
+              { speaker: "Narasi", text: "Galang, preman terkenal SMA 3, muncul dengan 3 temannya di depan Rifki.", showLeft: true, showRight: false },
+              { speaker: "Rifki", text: "Kita nggak kepentingan sama orang lain.", showLeft: true, showRight: false },
+              { speaker: "Galang", text: "Haha, santai. Gue sebenarnya suka sama Sinta juga. Tapi Raka minta gue 'ganggu' kalian.", showLeft: true, showRight: false },
+              { speaker: "Galang", text: "Dia bayar gue lumayan loh.", showLeft: true, showRight: false },
+              { speaker: "Rifki", text: "Bajingan. Gue gak akan biarkan dia.", showLeft: true, showRight: false },
+              { speaker: "Galang", text: "Berani? Anak SMK berani sama gue?", showLeft: true, showRight: false },
+            ],
+            choices: [
+              { text: "👊 Lawan dia (Courage 70+ diperlukan)", trust: 5, courage: 25, nextScene: 3, requireCourage: 70 },
+              { text: "🗣️ \"Gue punya bukti kalian colok minuman di pesta sekolah!\"", trust: 15, courage: 10, nextScene: 3 },
+              { text: "🏃 Kabur ke keamanan sekolah", trust: -10, courage: -15, nextScene: 3 }
+            ]
+          },
+          {
+            bg: "sekolah",
+            dialogs: [
+              { speaker: "Narasi", text: "Tapi Rifki tidak bisa mengalahkan Galang dan teman-temannya. Dia terkapar dengan luka di tubuhnya.", showLeft: true, showRight: false },
+              { speaker: "Narasi", text: "Beruntung ada security yang lewat dan mengasingkan mereka.", showLeft: true, showRight: false },
+              { speaker: "Rifki", text: "(Sial... Sinta...)", showLeft: true, showRight: false },
+            ],
+            choices: [
+              { text: "📱 Hubungi Sinta secepatnya", trust: 10, courage: 10, nextChapter: 4 },
+              { text: "🏥 Pergi ke UKS duluan dan urus luka", trust: 0, courage: 0, nextChapter: 4 },
+              { text: "😤 \"Gue balik lagi. Ini belum selesai!\"", trust: 5, courage: 20, nextChapter: 4 }
+            ]
+          }
+        ]
+      },
+      4: {
+        title: "Chapter 4: Titik Balik",
+        scenes: [
+          {
+            bg: "malam",
+            dialogs: [
+              { speaker: "Narasi", text: "Malam itu, Rifki dan Sinta bertemu di tempat aman mereka, taman yang sepi...", showLeft: true, showRight: true },
+              { speaker: "Sinta", text: "RIFKI! Apa yang terjadi?! Luka mu!", showLeft: true, showRight: true },
+              { speaker: "Rifki", text: "Aku baik-baik aja Sin. Tenang.", showLeft: true, showRight: true },
+              { speaker: "Sinta", text: "Baik-baik aja?! Kamu berdarah! Ini semua gara-gara aku!", showLeft: true, showRight: true },
+              { speaker: "Sinta", text: "Mungkin... mungkin kita harus putus aja.", showLeft: true, showRight: true },
+              { speaker: "Rifki", text: "TIDAK! Sin, dengarkan aku.", showLeft: true, showRight: true },
+              { speaker: "Rifki", text: "Aku PILIH buat bersama lo. Aku PILIH ngadepin semua ini untuk lo.", showLeft: true, showRight: true },
+              { speaker: "Rifki", text: "Yang salah bukan kita. Yang salah adalah orang-orang yang gak mau buka pikiran.", showLeft: true, showRight: true },
+            ],
+            choices: [
+              { text: "❤️ \"Aku percaya sama kamu. Kita lawan bersama.\"", trust: 20, courage: 15, nextScene: 1 },
+              { text: "😢 \"Tapi aku takut kehilangan kamu...\"", trust: 10, courage: 0, nextScene: 1 },
+              { text: "💪 \"Boleh... tapi kita perlu strategi. Bukan kekerasan.\"", trust: 15, courage: 10, nextScene: 1 }
+            ]
+          },
+          {
+            bg: "perpus",
+            dialogs: [
+              { speaker: "Narasi", text: "Mereka punya rencana. Kumpulkan bukti, laporkan ke kepala sekolah dan polisi.", showLeft: false, showRight: false },
+              { speaker: "Narasi", text: "Dengan bantuan Dimas dan beberapa teman, mereka berhasil dokumentasikan semuanya.", showLeft: true, showRight: false },
+              { speaker: "Dimas", text: "Bro, video pemerasan Galang udah clear. Nih bukti kalo Raka yang pesan.", showLeft: true, showRight: false },
+              { speaker: "Rifki", text: "Makasih Dim. Ini udah cukup.", showLeft: true, showRight: false },
+            ],
+            choices: [
+              { text: "🚔 Lapor ke polisi hari ini juga", trust: 15, courage: 15, nextScene: 2 },
+              { text: "🎓 Lapor ke kepala sekolah dulu, biar mereka handle", trust: 10, courage: 10, nextScene: 2 },
+              { text: "🤐 \"Tunggu aja sampe ada ancaman lagi baru lapor\"", trust: 0, courage: 0, nextScene: 2 }
+            ]
+          },
+          {
+            bg: "sekolah",
+            dialogs: [
+              { speaker: "Narasi", text: "Laporan mereka ditindaklanjuti. Galang dihubungi wali murid dan diinvestigasi polisi.", showLeft: false, showRight: false },
+              { speaker: "Narasi", text: "Raka juga dipanggil ke kantor kepala sekolah. Terus diteliti lebih lanjut.", showLeft: false, showRight: false },
+              { speaker: "Narasi", text: "Dalam waktu satu minggu, kedua sekolah membuat pemberitahuan resmi tentang zero tolerance kekerasan.", showLeft: false, showRight: false },
+              { speaker: "Sinta", text: "Rifki! Kalian sukses! Galang dikeluarkan dari sekolah!", showLeft: false, showRight: true },
+              { speaker: "Sinta", text: "Dan Raka dapat hukuman skors 3 bulan.", showLeft: false, showRight: true },
+            ],
+            choices: [
+              { text: "🎉 \"Kita menang bersama! Aku bangga sama kita!\"", trust: 20, courage: 15, nextChapter: 5 },
+              { text: "🤔 \"Tapi ini baru awal... masih ada masalah lain yang tunggu kita.\"", trust: 10, courage: 10, nextChapter: 5 },
+              { text: "😎 \"Ini pelajaran untuk semua orang. Jangan remehin orang SMK.\"", trust: 15, courage: 20, nextChapter: 5 }
+            ]
+          }
+        ]
+      },
+      5: {
+        title: "Chapter 5: Setelah Badai",
+        scenes: [
+          {
+            bg: "sekolah",
+            dialogs: [
+              { speaker: "Narasi", text: "Dua bulan kemudian, kehidupan mereka kembali normal. Tapi sesuatu telah berubah.", showLeft: true, showRight: true },
+              { speaker: "Rifki", text: "Keluarga ku sudah tahu tentang kita, Sin.", showLeft: true, showRight: true },
+              { speaker: "Sinta", text: "Orang tua mu gimana? Approving?", showLeft: true, showRight: true },
+              { speaker: "Rifki", text: "Ibu sih oke aja. Tapi ayah... dia khawatir kamu nanti gimana-gimana gara-gara bareng gue.", showLeft: true, showRight: true },
+              { speaker: "Rifki", text: "Status gue masih student. Gaji belum pasti. Masa depan belum jelas.", showLeft: true, showRight: true },
+            ],
+            choices: [
+              { text: "💕 \"Gue gak peduli! Gue percaya sama kamu.\"", trust: 15, courage: 10, nextScene: 1 },
+              { text: "😔 \"Kamu buat orang tua kamu khawatir...\"", trust: -10, courage: -10, nextScene: 1 },
+              { text: "🤝 \"Kita buktiin ke mereka kalau kita bisa. Bersama.\"", trust: 15, courage: 15, nextScene: 1 }
+            ]
+          },
+          {
+            bg: "sma",
+            dialogs: [
+              { speaker: "Narasi", text: "Di sisi Sinta, keadaan lebih rumit. Ortu Sinta adalah pengusaha sukses dengan standar tinggi.", showLeft: false, showRight: true },
+              { speaker: "Ibu Sinta", text: "Sinta... ini soal masa depan keluarga kita. Hubungan ini...", showLeft: false, showRight: true },
+              { speaker: "Ibu Sinta", text: "...tidak sejalan dengan rencana kami untuk mu.", showLeft: false, showRight: true },
+              { speaker: "Sinta", text: "Ibu, bapak, aku tidak bisa memilih cinta berdasarkan status orang tua nya.", showLeft: false, showRight: true },
+              { speaker: "Bapak Sinta", text: "Kamu belum mengerti dunia, Sinta. Nanti kalau kuliah jauh, kamu akan melihat banyak pilihan lagi.", showLeft: false, showRight: true },
+              { speaker: "Sinta", text: "Apakah Bapak dan Ibu bilang aku tidak boleh sama Rifki?", showLeft: false, showRight: true },
+              { speaker: "Ibu Sinta", text: "... kami hanya berharap kamu fokus pada pendidikan dulu.", showLeft: false, showRight: true },
+            ],
+            choices: [
+              { text: "💔 \"Aku akan stop sebentar... buat menunjukkan keseriusan kuliah.\"", trust: -15, courage: -10, nextScene: 2 },
+              { text: "😤 \"Ini pilihan aku. Aku sudah dewasa.\"", trust: 15, courage: 20, nextScene: 2 },
+              { text: "🤔 \"Kalau aku buktiin, kalian akan setuju kan?\"", trust: 10, courage: 10, nextScene: 2 }
+            ]
+          },
+          {
+            bg: "taman",
+            dialogs: [
+              { speaker: "Narasi", text: "Sinta menceritakan semuanya pada Rifki. Mereka duduk di taman sambil matahari mulai terbenam.", showLeft: true, showRight: true },
+              { speaker: "Rifki", text: "Jadi... orang tua mu belum approve kita?", showLeft: true, showRight: true },
+              { speaker: "Sinta", text: "Mereka tidak bilang langsung. Tapi aku tahu mereka tidak setuju.", showLeft: true, showRight: true },
+              { speaker: "Sinta", text: "Mereka bilang fokus sekolah dulu. Dan... dan implikasi tersirat adalah: jangan lanjutin hubungan ini.", showLeft: true, showRight: true },
+              { speaker: "Rifki", text: "Kalo gue kuliah bareng lo? Kalo gue buktiin gue bisaNaik kelas secara akademis?", showLeft: true, showRight: true },
+              { speaker: "Sinta", text: "Kamu serius?", showLeft: true, showRight: true },
+              { speaker: "Rifki", text: "Sangattt serius. Gue udah berkeliling cari info. Ada program diploma di politeknik. Sistem ganda.\"", showLeft: true, showRight: true },
+              { speaker: "Rifki", text: "Gue bisa kerja sambil kuliah. Buktiin ke keluarga lo kalo gue serius.", showLeft: true, showRight: true },
+            ],
+            choices: [
+              { text: "❤️ \"Aku juga mau serius. Kita lakukan bersama.\"", trust: 25, courage: 15, nextChapter: 6 },
+              { text: "😢 \"Tapi itu terlalu berat untuk kamu...\"", trust: 0, courage: -10, nextChapter: 6 },
+              { text: "💪 \"Baik. Tapi kita harus strategi dengan ortu kita dulu.\"", trust: 20, courage: 15, nextChapter: 6 }
+            ]
+          }
+        ]
+      },
+      6: {
+        title: "Chapter 6: Masa Depan Menunggu",
+        scenes: [
+          {
+            bg: "sekolah",
+            dialogs: [
+              { speaker: "Narasi", text: "Kelas 12, situasi menjadi lebih krusial. Nilai-nilai Rifki mulai naik drastis.", showLeft: true, showRight: false },
+              { speaker: "Guru", text: "Rifki, perubahan prestasi kamu luar biasa. Ada apa?", showLeft: true, showRight: false },
+              { speaker: "Rifki", text: "Guru, saya serius ingin lanjut kuliah. Saya ingin daftar politeknik tahun depan.", showLeft: true, showRight: false },
+              { speaker: "Guru", text: "Bagus! Kamu punya alasan yang kuat?", showLeft: true, showRight: false },
+              { speaker: "Rifki", text: "Ada seseorang yang membuat saya ingin menjadi versi terbaik diri saya.", showLeft: true, showRight: false },
+            ],
+            choices: [
+              { text: "📚 Intensif persiapan kuliah bersama Sinta", trust: 15, courage: 10, nextScene: 1 },
+              { text: "💼 Cari kerja paruh waktu untuk tabung", trust: 10, courage: 15, nextScene: 1 },
+              { text: "🎯 Tetap fokus sekolah, deal dengan masa depan nanti", trust: 5, courage: 0, nextScene: 1 }
+            ]
+          },
+          {
+            bg: "perpus",
+            dialogs: [
+              { speaker: "Narasi", text: "Sinta juga berjuang keras dengan nilai-nilainya. Target UTBK mereka semakin jelas.", showLeft: true, showRight: true },
+              { speaker: "Sinta", text: "Aku diterima di FMIPA UI. Gue berhasil, Rif!", showLeft: true, showRight: true },
+              { speaker: "Rifki", text: "CONGRATS! Gue bangga banget sama lu!\"", showLeft: true, showRight: true },
+              { speaker: "Sinta", text: "Tapi... UI di Jakarta. Itu jauh dari Bandung tempat politeknik yang kamu target.", showLeft: true, showRight: true },
+              { speaker: "Sinta", text: "Kita mau gimana, Rif? Long distance?", showLeft: true, showRight: true },
+              { speaker: "Rifki", text: "Kalo itu yang terbaik untuk masa depan kita, kita harus siap.", showLeft: true, showRight: true },
+            ],
+            choices: [
+              { text: "🎓 \"Kita support masing-masing kuliah dulu. Nanti kita ketemu kalau udah lulus.\"", trust: 15, courage: 20, nextScene: 2 },
+              { text: "😔 \"Mungkin kita harus putus aja sekarang. Lebih mudah.\"", trust: -20, courage: -15, nextScene: 2 },
+              { text: "💪 \"Long distance is hard, tapi kita bisa! Aku pernah liat couple yang berhasil!\"", trust: 20, courage: 15, nextScene: 2 }
+            ]
+          },
+          {
+            bg: "halte",
+            dialogs: [
+              { speaker: "Narasi", text: "Tempat mereka pertama kali bertemu kini menjadi tempat perpisahan sementara.", showLeft: true, showRight: true },
+              { speaker: "Sinta", text: "Jadi... 4 tahun kita jalani long distance. Sampai kita both lulus kuliah.", showLeft: true, showRight: true },
+              { speaker: "Rifki", text: "Iya. Kita telepon setiap hari. Visit sesekali kalau ada kesempatan.", showLeft: true, showRight: true },
+              { speaker: "Sinta", text: "Kamu ingat kan... pertama kali kita ketemu di angkot ini?", showLeft: true, showRight: true },
+              { speaker: "Rifki", text: "Nggak bisa lupa. Itu hari terbaik dalam hidup gue.", showLeft: true, showRight: true },
+              { speaker: "Sinta", text: "Kita janji ya... setelah lulus, kita lanjutin dari sini. Dari halte ini.", showLeft: true, showRight: true },
+              { speaker: "Rifki", text: "Janji. Gue tunggu kamu selamanya kalau perlu.", showLeft: true, showRight: true },
+            ],
+            choices: [
+              { text: "💍 \"Gue udah punya rencana. Tunggu aja sampai lulus.\" (Hint: Proposal)", trust: 25, courage: 20, nextChapter: 7 },
+              { text: "👋 \"Sampai jumpa, cinta. Jangan lupa aku.\"", trust: 20, courage: 15, nextChapter: 7 },
+              { text: "😭 \"Ini yang tersulit dalam hidup gue.\"", trust: 15, courage: 10, nextChapter: 7 }
+            ]
+          }
+        ]
+      },
+      7: {
+        title: "Chapter 7: Kisah Long Distance",
+        scenes: [
+          {
+            bg: "malam",
+            dialogs: [
+              { speaker: "Narasi", text: "4 tahun berlalu. Tahun pertama paling berat. Mereka sering menangis di video call.", showLeft: false, showRight: false },
+              { speaker: "WA", text: "CHAT_SCENE", showLeft: false, showRight: false },
+            ],
+            waMessages: [
+              { from: "sinta", text: "Rif... aku merindukan mu", time: "23:45" },
+              { from: "rifki", text: "Gue juga... banget", time: "23:46" },
+              { from: "sinta", text: "Gimana kalau kita lakuin video call? Aku pengen lihat mukamu", time: "23:47" },
+              { from: "rifki", text: "Ok, call mu dalam 2 menit", time: "23:47" },
+              { from: "sinta", text: "Wait... ada yang pengen gue cerita", time: "23:50" },
+              { from: "sinta", text: "Tadi ada junior anak politeknik yang nge-add aku di IG", time: "23:50" },
+              { from: "sinta", text: "Dia sering komentar di post ku... tapi don't worry. Gue hanya interested sama kamu", time: "23:51" },
+              { from: "rifki", text: "...", time: "23:55" },
+              { from: "rifki", text: "Syukurlah", time: "23:55" },
+            ],
+            choices: [
+              { text: "🤝 \"Gue percaya sama kamu. Tapi kalo dia ganggu, kabarin gue ya.\"", trust: 15, courage: 10, nextScene: 1 },
+              { text: "😔 \"Nah gini... long distance emang susah. Banyak yang saling mengenal...\"", trust: -10, courage: -10, nextScene: 1 },
+              { text: "💪 \"Ini test buat kita. Kita udah lewatin yang lebih berat, ini apa?\"", trust: 15, courage: 15, nextScene: 1 }
+            ]
+          },
+          {
+            bg: "perpus",
+            dialogs: [
+              { speaker: "Narasi", text: "Tahun ketiga kuliah. Rifki dan Sinta sudah terbiasa dengan jarak. Mereka tumbuh saling percaya.", showLeft: false, showRight: false },
+              { speaker: "Narasi", text: "Tapi muncul tantangan baru. Internship dan kesempatan kerja.", showLeft: false, showRight: false },
+              { speaker: "Sinta", text: "Rif!! Aku dapat internship di Singapura! Selama 6 bulan!", showLeft: true, showRight: true },
+              { from: "rifki", text: "Wow! Itu bagus banget Sin! Congrats!", showLeft: true, showRight: true },
+              { from: "sinta", text: "Tapi... itu berarti aku gak bisa pulang semester ini. 😢", showLeft: true, showRight: true },
+              { from: "rifki", text: "Itu okaaay. Ambilin internship terbaik untuk karir mu. Gue dukung!", showLeft: true, showRight: true },
+              { from: "sinta", text: "Kamu serius? Gak minder?", showLeft: true, showRight: true },
+              { from: "rifki", text: "Minder apaan? Ini kebanggaan, Sin. Gue bangga punya pacar yang ini ambisiusnya.", showLeft: true, showRight: true },
+            ],
+            choices: [
+              { text: "❤️ \"Gue gak sabar buat dengar cerita mu. Gue doain sukses!\"", trust: 20, courage: 10, nextScene: 2 },
+              { text: "😢 \"6 bulan itu lama banget... aku takut kamu lupa aku.\"", trust: -10, courage: -10, nextScene: 2 },
+              { text: "🌍 \"Luar negeri? Kita mau kapan ketemu lagi?\"", trust: 5, courage: 5, nextScene: 2 }
+            ]
+          },
+          {
+            bg: "sekolah",
+            dialogs: [
+              { speaker: "Narasi", text: "Mendekati akhir kuliah, Rifki sudah bekerja di sebuah manufaktur besar.", showLeft: true, showRight: false },
+              { speaker: "Bos", text: "Rifki, kerja kamu bagus. Kami mau permanent hire kamu. Gaji yang kompetitif.", showLeft: true, showRight: false },
+              { speaker: "Rifki", text: "Terima kasih, Sir. Ini adalah impian saya.", showLeft: true, showRight: false },
+              { speaker: "Narasi", text: "Untuk pertama kalinya, Rifki merasa stabil. Punya gaji tetap, prospek cerah.", showLeft: true, showRight: false },
+            ],
+            choices: [
+              { text: "📱 Langsung cerita sama Sinta dengan bahagia", trust: 10, courage: 10, nextChapter: 8 },
+              { text: "🤔 \"Mungkin sekarang saatnya aku buka cerita serius soal masa depan kita.\"", trust: 15, courage: 20, nextChapter: 8 },
+              { text: "💰 \"Kerja keras telah membawa aku ke sini. Sekarang giliran Sinta.\"", trust: 15, courage: 15, nextChapter: 8 }
+            ]
+          }
+        ]
+      },
+      8: {
+        title: "Chapter 8: Keputusan Besar",
+        scenes: [
+          {
+            bg: "taman",
+            dialogs: [
+              { speaker: "Narasi", text: "Setelah lulus kuliah, Sinta dan Rifki akhirnya bisa bertemu lagi secara rutin.", showLeft: true, showRight: true },
+              { speaker: "Sinta", text: "Gue udah diterima di program residensi pediatri di RSUPN. Jakarta terus.", showLeft: true, showRight: true },
+              { speaker: "Rifki", text: "Itu bagus Sin! Specialist anak itu impian kamu sejak awal.", showLeft: true, showRight: true },
+              { speaker: "Sinta", text: "Iya... tapi Rifki, aku mau tanya. Kita mau gimana?", showLeft: true, showRight: true },
+              { speaker: "Sinta", text: "Kamu di Bandung, aku di Jakarta. Kerjaan kita berat semua...", showLeft: true, showRight: true },
+              { speaker: "Rifki", text: "Sin... gue udah nunggu moment ini.", showLeft: true, showRight: true },
+              { speaker: "Narasi", text: "Rifki berlutut. Di tangan kanannya adalah cincin sederhana dengan diamond kecil.", showLeft: true, showRight: true },
+              { speaker: "Rifki", text: "Sinta Wijaya, mau menikah sama aku?", showLeft: true, showRight: true },
+            ],
+            choices: [
+              { text: "💍 \"YES!! Sejak kapan kamu nge-plan ini?!\"", trust: 30, courage: 20, nextScene: 1 },
+              { text: "😢 \"Iya tapi... bagaimana dengan jarak? Pekerjaan?\"", trust: 10, courage: -10, nextScene: 1 },
+              { text: "🤗 (Peluk Rifki dan menangis bahagia)", trust: 25, courage: 15, nextScene: 1 }
+            ]
+          },
+          {
+            bg: "sma",
+            dialogs: [
+              { speaker: "Narasi", text: "Keluarga Sinta akhirnya menerima Rifki. Mereka melihat bagaimana Rifki berjuang, tumbuh, dan berhasil.", showLeft: true, showRight: true },
+              { speaker: "Bapak Sinta", text: "Rifki, terima kasih sudah membuktikan kami salah. Kamu adalah pilihan yang tepat untuk Sinta.", showLeft: true, showRight: true },
+              { from: "rifki", text: "Terima kasih Pak. Sinta adalah hadiah terbesar dalam hidup saya.", showLeft: true, showRight: true },
+              { from: "ibu sinta", text: "Nah, sekarang tinggal rencanain pernikahan. Wedding besar atau simple aja?", showLeft: true, showRight: true },
+              { from: "sinta", text: "Ibu, kami mau simple. Intimate ceremony. Yang penting keluarga dan orang tersayang ada.", showLeft: true, showRight: true },
+            ],
+            choices: [
+              { text: "💒 \"Nikah di gereja kecil, resepsi di halte tempat kita bertemu.\"", trust: 20, courage: 15, nextChapter: 9 },
+              { text: "🌴 \"Honeymoon dulu, nikah kemudian. Let's enjoy life first.\"", trust: 15, courage: 10, nextChapter: 9 },
+              { text: "👨‍👩‍👧 \"Nikah simple, tapi after wedding kita udah plan punya anak?\"", trust: 25, courage: 20, nextChapter: 9 }
+            ]
+          }
+        ]
+      },
+      9: {
+        title: "Chapter 9: Sebelum Selamanya",
+        scenes: [
+          {
+            bg: "ending",
+            dialogs: [
+              { speaker: "Narasi", text: "Hari pernikahan Rifki dan Sinta tiba. Tidak di gereja besar, tidak di hotel mewah.", showLeft: true, showRight: true },
+              { speaker: "Narasi", text: "Mereka memilih halte tempat mereka pertama kali bertemu. Halte yang telah menjadi saksi cinta mereka.", showLeft: true, showRight: true },
+              { speaker: "Narasi", text: "Orang tua mereka menyetujui pilihan unik ini. Sahabat mereka berkumpul. Semuanya sederhana tapi bermakna.", showLeft: true, showRight: true },
+              { speaker: "Rifki", text: "Sinta... gue janji, sampai mati pun gue gak akan tinggalin kamu. Mau terus di angkot bersama gue?", showLeft: true, showRight: true },
+              { speaker: "Sinta", text: "Selamanya, Rif. Dalam angkot atau di mansion, yang penting sama kamu.", showLeft: true, showRight: true },
+            ],
+            choices: [
+              { text: "💕 True Love Ending (Trust/Courage tinggi)", isEnding: true }
+            ]
+          }
+        ]
+      },
+      10: {
+        title: "Chapter 10: Reunion",
+        scenes: [
+          {
+            bg: "ending",
+            dialogs: [
+              { speaker: "Narasi", text: "10 tahun kemudian... Rifki dan Sinta kembali ke halte tempat mereka bertemu.", showLeft: true, showRight: true },
+              { speaker: "Narasi", text: "Mereka masih bersama. Sudah menikah 8 tahun, punya 2 anak yang cantik.", showLeft: true, showRight: true },
+              { speaker: "Sinta", text: "Masih ingat kan? Pertama kali aku hampir jatuh di angkot.", showLeft: true, showRight: true },
+              { speaker: "Rifki", text: "Paling beruntung hari dalam hidup gue. Kalau gue gak nahan kamu hari itu...", showLeft: true, showRight: true },
+              { speaker: "Anak", text: "Ibu, Ayah, ini tempat kalian ketemu? Keren!\"", showLeft: false, showRight: false },
+              { speaker: "Sinta", text: "Iya nak. Dan ini momen ketika dunia yang beda akhirnya menjadi satu.", showLeft: true, showRight: true },
+              { speaker: "Rifki", text: "Lintas seragam. Dari bengkel ke papan tulis. Dari beda menjadi satu.", showLeft: true, showRight: true },
+            ],
+            choices: [
+              { text: "💕 Perfect Ending (Mereka bahagia selamanya)", isEnding: true }
+            ]
+          }
+        ]
+      }
+    };
+    
+    const backgrounds = {
+      angkot: { gradient: "linear-gradient(135deg, #4a5568 0%, #2d3748 50%, #1a202c 100%)" },
+      halte: { gradient: "linear-gradient(180deg, #f6ad55 0%, #ed8936 30%, #2d3748 100%)" },
+      perpus: { gradient: "linear-gradient(135deg, #553c9a 0%, #2d3748 100%)" },
+      taman: { gradient: "linear-gradient(135deg, #48bb78 0%, #2f855a 50%, #22543d 100%)" },
+      sekolah: { gradient: "linear-gradient(135deg, #3182ce 0%, #2b6cb0 50%, #2c5282 100%)" },
+      sma: { gradient: "linear-gradient(135deg, #d69e2e 0%, #b7791f 50%, #744210 100%)" },
+      malam: { gradient: "linear-gradient(180deg, #1a202c 0%, #0a0f1a 100%)" },
+      konflik: { gradient: "linear-gradient(135deg, #c53030 0%, #742a2a 50%, #1a202c 100%)" },
+      ending: { gradient: "linear-gradient(135deg, #553c9a 0%, #44337a 50%, #1a202c 100%)" },
+      chat: { gradient: "linear-gradient(135deg, #1a202c 0%, #2d3748 100%)" }
+    };
+    
+    function createAnimatedStars() {
+      const container = document.getElementById('starsContainer');
+      container.innerHTML = '';
+      for (let i = 0; i < 50; i++) {
+        const star = document.createElement('div');
+        star.className = 'absolute animate-twinkle';
+        star.textContent = '✨';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.animationDelay = (Math.random() * 2) + 's';
+        star.style.fontSize = (Math.random() * 1 + 0.5) + 'em';
+        container.appendChild(star);
+      }
+    }
+    
+    function createFloatingParticles() {
+      const container = document.getElementById('particlesContainer');
+      container.innerHTML = '';
+      
+      const emojis = ['🎮', '💕', '⚡', '🔧', '📚', '✨', '🌟'];
+      
+      for (let i = 0; i < 15; i++) {
+        const particle = document.createElement('div');
+        particle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        particle.className = 'particle animate-float-up absolute';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.bottom = '-50px';
+        particle.style.fontSize = (Math.random() * 1 + 0.8) + 'em';
+        particle.style.animationDelay = (Math.random() * 3) + 's';
+        container.appendChild(particle);
+        
+        setTimeout(() => {
+          particle.remove();
+        }, 3500);
+      }
+    }
+    
+    function toggleMusic() {
+      const btn = document.getElementById('musicBtn');
+      
+      if (musicEnabled) {
+        stopMusic();
+        btn.classList.remove('active');
+        btn.textContent = '🔇 Musik';
+        musicEnabled = false;
+      } else {
+        playMusic();
+        btn.classList.add('active');
+        btn.textContent = '🔊 Musik';
+        musicEnabled = true;
+      }
+    }
+    
+    function playMusic() {
+      if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      
+      if (audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
+      
+      const now = audioContext.currentTime;
+      
+      // Simple melody pattern
+      const notes = [
+        { freq: 261.63, time: 0 },    // C
+        { freq: 329.63, time: 0.5 },  // E
+        { freq: 392.00, time: 1 },    // G
+        { freq: 329.63, time: 1.5 },  // E
+        { freq: 261.63, time: 2 },    // C
+        { freq: 392.00, time: 2.5 },  // G
+        { freq: 329.63, time: 3 }     // E
+      ];
+      
+      playMelody(notes, now, 0);
+    }
+    
+    function playMelody(notes, startTime, index) {
+      if (index >= notes.length || !musicEnabled) return;
+      
+      const note = notes[index];
+      const osc = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+      
+      osc.connect(gain);
+      gain.connect(audioContext.destination);
+      
+      osc.frequency.value = note.freq;
+      osc.type = 'sine';
+      
+      gain.gain.setValueAtTime(0.1, audioContext.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.4);
+      
+      osc.start(audioContext.currentTime + note.time);
+      osc.stop(audioContext.currentTime + note.time + 0.4);
+      
+      setTimeout(() => {
+        playMelody(notes, startTime, index + 1);
+      }, 500);
+    }
+    
+    function stopMusic() {
+      if (oscillator) {
+        oscillator.stop();
+        oscillator = null;
+      }
+      if (gainNode) {
+        gainNode.disconnect();
+        gainNode = null;
+      }
+    }
+    
+    const endings = {
+      perfect: {
+        icon: "💕👨‍👩‍👧‍👦",
+        title: "Perfect Ending: Selamanya Bersama",
+        text: "Rifki dan Sinta membuktikan bahwa cinta yang sejati dapat melampaui semua perbedaan. Mereka menikah, punya keluarga, dan hidup bahagia. Lintas seragam menjadi simbol dari cinta yang mengalahkan semua hambatan.",
+        stats: "Trust: 100% | Courage: 100%"
+      },
+      trueLove: {
+        icon: "💞",
+        title: "True Love Ending: Janji Terakhir",
+        text: "Meski jarak dan tekanan mengobah perjalanan mereka, cinta mereka tetap kuat. Mereka menikah, tapi pilihan karir membuat mereka terpisah. Namun, setiap tahun mereka kembali ke halte itu. Janji mereka tetap bertahan.",
+        stats: "Trust: 85% | Courage: 80%"
+      },
+      bittersweet: {
+        icon: "🌙💫",
+        title: "Bittersweet Ending: Waktu yang Berbeda",
+        text: "Rifki dan Sinta saling cinta, tapi takdir memilih mereka untuk sukses di jalan berbeda. Mereka putus dengan damai. Bertahun-tahun kemudian, saat reunion SMA, mereka bertemu lagi. Kesempatan kedua? Atau hanya nostalgia?",
+        stats: "Trust: 60% | Courage: 55%"
+      },
+      separated: {
+        icon: "💔",
+        title: "Separated Ending: Pilihan yang Berbeda",
+        text: "Pressur dari keluarga, jarak, dan ambisi akhirnya memisahkan Rifki dan Sinta. Mereka masih saling peduli, tapi tidak bisa lanjutin. Sekarang mereka hidup di dimensi berbeda. Kadang melihat foto satu sama lain di social media.",
+        stats: "Trust: 40% | Courage: 35%"
+      },
+      bestFriends: {
+        icon: "🤝❤️",
+        title: "Best Friends Ending: Cinta yang Berevolusi",
+        text: "Rifki dan Sinta realize bahwa mereka lebih cocok sebagai sahabat. Cinta romantis mereka berubah menjadi cinta kasih sayang yang abadi. Mereka tetap saling mendukung dalam setiap fase hidup. Koneksi mereka tidak pernah hilang.",
+        stats: "Trust: 75% | Courage: 60%"
+      },
+      secret: {
+        icon: "🏆✨",
+        title: "Secret Ending: Hero Tanpa Jubah",
+        text: "Rifki tidak hanya memenangkan hati Sinta, tapi juga memenangkan hati sekolah. Dia menjadi simbol perubahan dan penerimaan. Galang yang dia bantu, akhirnya berubah total menjadi mentor untuk juniors. Cerita mereka menginspirasi banyak orang.",
+        stats: "Trust: 95% | Courage: 90%"
+      }
+    };
+    
+    async function initSDK() {
+      if (window.elementSdk) {
+        await window.elementSdk.init({
+          defaultConfig,
+          onConfigChange: async (newConfig) => {
+            config = { ...defaultConfig, ...newConfig };
+            updateUI();
+          },
+          mapToCapabilities: () => ({ recolorables: [], borderables: [], fontEditable: undefined, fontSizeable: undefined }),
+          mapToEditPanelValues: (config) => new Map([
+            ["game_title", config.game_title || defaultConfig.game_title],
+            ["subtitle", config.subtitle || defaultConfig.subtitle]
+          ])
+        });
+        config = { ...defaultConfig, ...window.elementSdk.config };
+      }
+      
+      if (window.dataSdk) {
+        await window.dataSdk.init({
+          onDataChanged: (data) => {
+            savedGames = data;
+            updateContinueButton();
+          }
+        });
+      }
+      
+      updateUI();
+      
+      // Initialize menu animations
+      createAnimatedStars();
+      createFloatingParticles();
+      
+      // Create new particles every 2 seconds
+      setInterval(() => {
+        if (!document.getElementById('mainMenu').classList.contains('hidden')) {
+          createFloatingParticles();
+        }
+      }, 2000);
+    }
+    
+    function updateUI() {
+      document.getElementById('gameTitle').textContent = config.game_title || defaultConfig.game_title;
+      document.getElementById('gameSubtitle').textContent = config.subtitle || defaultConfig.subtitle;
+    }
+    
+    function updateContinueButton() {
+      const btn = document.getElementById('continueBtn');
+      btn.classList.toggle('hidden', savedGames.length === 0);
+    }
+    
+    function showMainMenu() {
+      document.getElementById('mainMenu').classList.remove('hidden');
+      document.getElementById('characterGallery').classList.add('hidden');
+      document.getElementById('gameScreen').classList.add('hidden');
+      document.getElementById('pauseMenu').classList.add('hidden');
+      document.getElementById('endingScreen').classList.add('hidden');
+    }
+    
+    function showCharacters() {
+      document.getElementById('mainMenu').classList.add('hidden');
+      document.getElementById('characterGallery').classList.remove('hidden');
+    }
+    
+    function startNewGame() {
+      gameState = { chapter: 1, scene: 0, trust: 50, courage: 50, choices: [], ending: null };
+      currentDialog = 0;
+      document.getElementById('mainMenu').classList.add('hidden');
+      document.getElementById('gameScreen').classList.remove('hidden');
+      loadScene();
+    }
+    
+    function loadGame() {
+      if (savedGames.length > 0) {
+        const save = savedGames[savedGames.length - 1];
+        gameState = {
+          chapter: save.chapter,
+          scene: save.scene,
+          trust: save.trust,
+          courage: save.courage,
+          choices: JSON.parse(save.choices || '[]'),
+          ending: save.ending
+        };
+        currentDialog = 0;
+        document.getElementById('mainMenu').classList.add('hidden');
+        document.getElementById('gameScreen').classList.remove('hidden');
+        loadScene();
+      }
+    }
+    
+    async function saveGame() {
+      if (!window.dataSdk) return;
+      
+      const saveData = {
+        chapter: gameState.chapter,
+        scene: gameState.scene,
+        trust: gameState.trust,
+        courage: gameState.courage,
+        choices: JSON.stringify(gameState.choices),
+        ending: gameState.ending || '',
+        savedAt: new Date().toISOString()
+      };
+      
+      const statusEl = document.getElementById('saveStatus');
+      statusEl.classList.remove('hidden');
+      statusEl.textContent = '💾 Menyimpan...';
+      statusEl.className = 'mt-4 text-center text-sm text-yellow-400';
+      
+      const result = await window.dataSdk.create(saveData);
+      
+      if (result.isOk) {
+        statusEl.textContent = '✅ Game tersimpan!';
+        statusEl.className = 'mt-4 text-center text-sm text-green-400';
+      } else {
+        statusEl.textContent = '❌ Gagal menyimpan';
+        statusEl.className = 'mt-4 text-center text-sm text-red-400';
+      }
+      
+      setTimeout(() => statusEl.classList.add('hidden'), 2000);
+    }
+    
+    function showPauseMenu() {
+      document.getElementById('pauseMenu').classList.remove('hidden');
+    }
+    
+    function resumeGame() {
+      document.getElementById('pauseMenu').classList.add('hidden');
+    }
+    
+    function confirmQuit() {
+      showMainMenu();
+    }
+    
+    function loadScene() {
+      const chapter = storyData[gameState.chapter];
+      if (!chapter) {
+        showEnding();
+        return;
+      }
+      
+      const scene = chapter.scenes[gameState.scene];
+      if (!scene) {
+        showEnding();
+        return;
+      }
+      
+      if (scene.isEnding) {
+        showEnding();
+        return;
+      }
+      
+      document.getElementById('chapterIndicator').textContent = chapter.title;
+      
+      const sceneBg = document.getElementById('sceneBg');
+      const bgData = backgrounds[scene.bg];
+      if (bgData) {
+        sceneBg.style.background = bgData.gradient;
+      }
+      
+      // Create animated particles for scene
+      createFloatingParticles();
+      
+      document.getElementById('trustBar').style.width = `${Math.max(0, Math.min(100, gameState.trust))}%`;
+      document.getElementById('courageBar').style.width = `${Math.max(0, Math.min(100, gameState.courage))}%`;
+      
+      currentDialog = 0;
+      showDialog(scene);
+    }
+    
+    function showDialog(scene) {
+      const dialog = scene.dialogs[currentDialog];
+      
+      if (!dialog) {
+        showChoices(scene.choices);
+        return;
+      }
+      
+      if (dialog.speaker === "WA" && dialog.text === "CHAT_SCENE") {
+        showWaChat(scene.waMessages, scene.choices);
+        return;
+      }
+      
+      const leftChar = document.getElementById('characterLeft');
+      const rightChar = document.getElementById('characterRight');
+      
+      dialog.showLeft ? leftChar.classList.remove('hidden') : leftChar.classList.add('hidden');
+      dialog.showRight ? rightChar.classList.remove('hidden') : rightChar.classList.add('hidden');
+      
+      const speakerEl = document.getElementById('speakerName');
+      const textEl = document.getElementById('dialogText');
+      const continueEl = document.getElementById('continueIndicator');
+      const choicesEl = document.getElementById('choicesContainer');
+      
+      choicesEl.classList.add('hidden');
+      speakerEl.textContent = dialog.speaker;
+      speakerEl.style.color = getSpeakerColor(dialog.speaker);
+      
+      typeText(textEl, dialog.text, () => {
+        continueEl.classList.remove('hidden');
+      });
+    }
+    
+    function getSpeakerColor(speaker) {
+      const colors = {
+        'Rifki': '#60a5fa', 'Sinta': '#f472b6', 'Dimas': '#34d399', 'Raka': '#fbbf24',
+        'Galang': '#ef4444', 'Narasi': '#94a3b8', 'Guru': '#a78bfa', 'Bos': '#fbbf24',
+        'Bapak Sinta': '#60a5fa', 'Ibu Sinta': '#f472b6', 'Anak': '#fbbf24'
+      };
+      return colors[speaker] || '#fff';
+    }
+    
+    function typeText(element, text, callback) {
+      isTyping = true;
+      element.textContent = '';
+      let i = 0;
+      
+      const interval = setInterval(() => {
+        if (i < text.length) {
+          element.textContent += text.charAt(i);
+          i++;
+        } else {
+          clearInterval(interval);
+          isTyping = false;
+          if (callback) callback();
+        }
+      }, 25);
+    }
+    
+    function showChoices(choices) {
+      const container = document.getElementById('choicesContainer');
+      const continueEl = document.getElementById('continueIndicator');
+      
+      continueEl.classList.add('hidden');
+      container.innerHTML = '';
+      container.classList.remove('hidden');
+      
+      choices.forEach((choice, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'choice-btn w-full py-3 px-4 bg-gradient-to-r from-purple-600/50 to-pink-600/50 hover:from-purple-500 hover:to-pink-500 text-white text-left rounded-xl border border-purple-400/30 transition-all transform hover:scale-[1.02]';
+        btn.style.animationDelay = `${index * 0.1}s`;
+        btn.classList.add('animate-fade-in');
+        
+        let disabled = false;
+        if (choice.requireCourage && gameState.courage < choice.requireCourage) {
+          disabled = true;
+          btn.classList.add('opacity-50', 'cursor-not-allowed');
+          btn.innerHTML = `${choice.text} <span class="text-red-400 text-sm">(Butuh ⚡${choice.requireCourage})</span>`;
+        } else {
+          btn.textContent = choice.text;
+        }
+        
+        if (!disabled) {
+          btn.onclick = () => makeChoice(choice);
+        }
+        
+        container.appendChild(btn);
+      });
+    }
+    
+    function makeChoice(choice) {
+      gameState.trust += choice.trust || 0;
+      gameState.courage += choice.courage || 0;
+      gameState.trust = Math.max(0, Math.min(100, gameState.trust));
+      gameState.courage = Math.max(0, Math.min(100, gameState.courage));
+      gameState.choices.push(choice.text);
+      
+      document.getElementById('trustBar').style.width = `${gameState.trust}%`;
+      document.getElementById('courageBar').style.width = `${gameState.courage}%`;
+      
+      if (choice.nextChapter) {
+        gameState.chapter = choice.nextChapter;
+        gameState.scene = 0;
+      } else if (choice.nextScene !== undefined) {
+        gameState.scene = choice.nextScene;
+      } else if (choice.isEnding) {
+        showEnding();
+        return;
+      }
+      
+      setTimeout(() => loadScene(), 500);
+    }
+    
+    function showWaChat(messages, choices) {
+      document.getElementById('gameScreen').classList.add('hidden');
+      // Implement WA chat UI here - simplified for brevity
+      setTimeout(() => {
+        document.getElementById('gameScreen').classList.remove('hidden');
+        showChoices(choices);
+      }, 3000);
+    }
+    
+    function showEnding() {
+      document.getElementById('gameScreen').classList.add('hidden');
+      document.getElementById('endingScreen').classList.remove('hidden');
+      
+      let ending;
+      
+      if (gameState.trust >= 95 && gameState.courage >= 90) {
+        ending = endings.secret;
+      } else if (gameState.trust >= 85 && gameState.courage >= 80) {
+        ending = endings.trueLove;
+      } else if (gameState.trust >= 70 && gameState.courage >= 60) {
+        ending = endings.bittersweet;
+      } else if (gameState.trust >= 50 && gameState.courage >= 45) {
+        ending = endings.separated;
+      } else {
+        ending = endings.perfect;
+      }
+      
+      document.getElementById('endingIcon').textContent = ending.icon;
+      document.getElementById('endingTitle').textContent = ending.title;
+      document.getElementById('endingText').textContent = ending.text;
+      document.getElementById('endingStats').textContent = ending.stats;
+      
+      gameState.ending = ending.title;
+    }
+    
+    document.getElementById('gameScreen').addEventListener('click', (e) => {
+      if (e.target.closest('.choice-btn') || e.target.closest('button')) return;
+      if (isTyping) return;
+      
+      const chapter = storyData[gameState.chapter];
+      if (!chapter) return;
+      
+      const scene = chapter.scenes[gameState.scene];
+      if (!scene) return;
+      
+      currentDialog++;
+      if (currentDialog < scene.dialogs.length) {
+        document.getElementById('continueIndicator').classList.add('hidden');
+        showDialog(scene);
+      } else {
+        showChoices(scene.choices);
+      }
+    });
+    
+    initSDK();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c1f9cecc266ce06',t:'MTc2OTA5MDc5Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
